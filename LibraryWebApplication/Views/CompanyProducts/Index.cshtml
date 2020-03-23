@@ -1,0 +1,41 @@
+﻿@model IEnumerable<LibraryWebApplication.CompanyProducts>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Команії, що мають товари із категорії @ViewBag.ProductName</h1>
+
+<p>
+    @Html.ActionLink("Додати компанію до цієї категорії", "Create", new { productId = @ViewBag.ProductId })
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CompanyId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Company.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.Name)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Models</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

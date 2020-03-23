@@ -1,0 +1,55 @@
+﻿@model LibraryWebApplication.ModelsOfProduct
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Додавання товару</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Information" class="control-label"></label>
+                <input asp-for="Information" class="form-control" />
+                <span asp-validation-for="Information" class="text-danger"></span>
+            </div>
+            <!--<div class="form-group">
+                <label asp-for="CompProdId" class="control-label"></label>
+                <select asp-for="CompProdId" class ="form-control" asp-items="ViewBag.CompProdId"></select>
+            </div>-->
+            <div class="form-group">
+                <label asp-for="ColorId" class="control-label"></label>
+                <select asp-for="ColorId" class ="form-control" asp-items="ViewBag.ColorId"></select>
+            </div>
+
+            <input type="hidden" value="@ViewBag.CompProdId" name="CompProdId" />
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+
+    @Html.ActionLink("Back to list", "Index", new {id = @ViewBag.CompProdId, companyId = @ViewBag.CompProdCompanyId, productId = ViewBag.CompProdProductId })
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

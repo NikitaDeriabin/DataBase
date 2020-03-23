@@ -1,0 +1,32 @@
+﻿@model LibraryWebApplication.CompanyProducts
+
+@{
+    ViewData["Title"] = "DeleteForCompany";
+}
+
+<h1>Видалити</h1>
+
+<h3>Ви впевненні, що хочете видалити?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Company)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Company.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Product)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Product.Name)
+        </dd>
+    </dl>
+
+    <form asp-action="DeleteForCompany">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="IndexForCompany" asp-route-id="@ViewBag.Company_id" asp-route-name="@ViewBag.CompanyName">Back to list</a>
+    </form>
+</div>
