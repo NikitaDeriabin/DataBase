@@ -1,4 +1,5 @@
 ﻿@model LibraryWebApplication.Filials
+@using System.Security.Claims
 
 @{
     ViewData["Title"] = "Details";
@@ -37,6 +38,12 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    @{
+        var roles = ((ClaimsIdentity)User.Identity).Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value);
+        @if (roles.Contains("admin"))
+        {
+            <a asp-action="Edit" asp-route-id="@Model.Id">Edit |</a>
+        }
+    }
     <a asp-action="Index" asp-route-id="@Model.CompanyId" asp-route-name="@Model.Company.Name">Back to list</a>
 </div>

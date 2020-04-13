@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LibraryWebApplication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibraryWebApplication.Controllers
 {
@@ -53,6 +54,7 @@ namespace LibraryWebApplication.Controllers
         }
 
         // GET: Filials/Create
+        [Authorize(Roles = "admin")]
         public IActionResult Create(int companyId)
         {
             // ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Id");
@@ -87,6 +89,7 @@ namespace LibraryWebApplication.Controllers
         }
 
         // GET: Filials/Edit/5
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int? id)
         {
            
@@ -148,6 +151,7 @@ namespace LibraryWebApplication.Controllers
         }
 
         // GET: Filials/Delete/5
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

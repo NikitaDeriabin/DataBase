@@ -1,15 +1,21 @@
 ﻿@model IEnumerable<LibraryWebApplication.ModelsOfProduct>
+@using System.Security.Claims
 
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1>Товари із категорії @ViewBag.CompanyProductProductName компанії @ViewBag.CompanyProductCompanyName</h1>
-<p>
-    @Html.ActionLink("Додати товар", "Create", new { compProdId = @ViewBag.CompProdId })
-</p>
 
-
+@{
+    var roles = ((ClaimsIdentity)User.Identity).Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value);
+}
+@if (roles.Contains("admin"))
+ {
+    <p>
+        @Html.ActionLink("Додати товар", "Create", new { compProdId = @ViewBag.CompProdId })
+    </p> 
+ } 
 
 <form asp-action="Index" asp-route-id="@ViewBag.CompProdId" asp-route-companyId="@ViewBag.CompanyProductCompanyId" asp-route-productId="@ViewBag.CompanyProductProductId">
     <div class="form-action no-color">
@@ -56,9 +62,13 @@
                     @Html.DisplayFor(modelItem => item.Color.Name)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    @if (roles.Contains("admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">| Edit |</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    }
                 </td>
             </tr>
         }

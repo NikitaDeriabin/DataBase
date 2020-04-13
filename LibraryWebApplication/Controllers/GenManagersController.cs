@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LibraryWebApplication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibraryWebApplication.Controllers
 {
@@ -54,6 +55,7 @@ namespace LibraryWebApplication.Controllers
         }
 
         // GET: GenManagers/Create
+        [Authorize(Roles = "admin")]
         public IActionResult Create()
         {
             ViewData["CountryId"] = new SelectList(_context.Countries, "Id", "Name");
@@ -78,6 +80,7 @@ namespace LibraryWebApplication.Controllers
         }
 
         // GET: GenManagers/Edit/5
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -131,6 +134,7 @@ namespace LibraryWebApplication.Controllers
         }
 
         // GET: GenManagers/Delete/5
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int? id, bool saveChangesError = false)
         {
             if (id == null)

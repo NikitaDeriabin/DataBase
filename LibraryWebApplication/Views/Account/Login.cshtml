@@ -1,0 +1,24 @@
+﻿@model LibraryWebApplication.ViewModel.LoginViewModel
+
+<h2 class="text-center">Вхід</h2>
+<form method="post" asp-controller="Account" asp-action="Login"
+      asp-route-returnUrl="@Model.ReturnUrl">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="text">
+        <label asp-for="Email" class="control-label"></label><br />
+        <input asp-for="Email" class="form-control"/>
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="text">
+        <label asp-for="Password" class="control-label"></label><br />
+        <input asp-for="Password" class="form-control"/>
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <div class="text">
+        <label asp-for="RememberMe "></label>
+        <input asp-for="RememberMe" />
+    </div>
+    <div class="text">
+        <input type="submit" value="Увійти" />
+    </div>
+</form>

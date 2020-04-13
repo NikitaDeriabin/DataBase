@@ -11,6 +11,7 @@ using System.IO;
 using ClosedXML.Excel;
 using System.Drawing;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Authorization;
 
 
 
@@ -72,6 +73,7 @@ namespace LibraryWebApplication.Controllers
         }
 
         // GET: Products/Create
+        [Authorize(Roles = "admin")]
         public IActionResult Create()
         {
             return View();
@@ -102,6 +104,7 @@ namespace LibraryWebApplication.Controllers
         }
 
         // GET: Products/Edit/5
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -153,6 +156,7 @@ namespace LibraryWebApplication.Controllers
         }
 
         // GET: Products/Delete/5
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int? id, bool saveChangesError = false)
         {
             if (id == null)
@@ -221,6 +225,7 @@ namespace LibraryWebApplication.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Import(IFormFile fileExcel)
         {
@@ -264,7 +269,15 @@ namespace LibraryWebApplication.Controllers
                                         ModelsOfProduct Model = new ModelsOfProduct();
                                         Model.Name = row.Cell(1).Value.ToString();
                                         if (Model.Name == "") throw new Exception("Порожнє поле назви товару");
-                                        if (row.Cell(3).Value.ToString() != "") Model.Price = Convert.ToDouble(row.Cell(3).Value);
+                                        if (row.Cell(3).Value.ToString() != "")
+                                            try
+                                            {
+                                                Model.Price = Convert.ToDouble(row.Cell(3).Value);
+                                            }
+                                            catch (Exception)
+                                            {
+                                                throw new Exception("Некоректне поле ціни");
+                                            }
                                         else throw new Exception("Порожнє поле ціни");
                                         Model.Information = row.Cell(4).Value.ToString();
 

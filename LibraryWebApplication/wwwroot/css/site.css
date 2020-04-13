@@ -92,6 +92,17 @@ body {
     font-weight: bold;
     text-align: center;
 }
+.login_email {
+    margin-top:15px;
+    color:#fff;
+    opacity: 0.5;
+}
+.change_password {
+    margin-top:-10px;
+    margin-left:50px;
+    color:#000000;
+    opacity: 1;
+}
 
 .fl_upld label:hover {
     background: #4488e6;

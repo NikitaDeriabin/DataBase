@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LibraryWebApplication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibraryWebApplication.Controllers
 {
@@ -68,6 +69,7 @@ namespace LibraryWebApplication.Controllers
         }
 
         // GET: CompanyProducts/Create
+        [Authorize(Roles = "admin")]
         public IActionResult CreateForCompany(int companyId)
         {
             //ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Name");
@@ -108,6 +110,8 @@ namespace LibraryWebApplication.Controllers
         }
 
         // GET: CompanyProducts/Create
+        [Authorize(Roles = "admin")]
+
         public IActionResult Create(int productId)
         {
             ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Name");
@@ -149,6 +153,7 @@ namespace LibraryWebApplication.Controllers
         }
 
         // GET: CompanyProducts/Edit/5
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -214,6 +219,7 @@ namespace LibraryWebApplication.Controllers
         }
 
         // GET: CompanyProducts/DeleteForCompany/5
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteForCompany(int? id, bool saveChangesError = false)
         {
             if (id == null)
@@ -265,6 +271,7 @@ namespace LibraryWebApplication.Controllers
         }
 
         // GET: CompanyProducts/Delete/5
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int? id, bool saveChangesError = false)
         {
             if (id == null)

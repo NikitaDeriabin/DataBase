@@ -9,6 +9,7 @@ using LibraryWebApplication;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using ClosedXML.Excel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibraryWebApplication.Controllers
 {
@@ -46,6 +47,7 @@ namespace LibraryWebApplication.Controllers
         }
 
         // GET: Countries/Create
+        [Authorize(Roles = "admin")]
         public IActionResult Create()
         {
             return View();
@@ -76,6 +78,7 @@ namespace LibraryWebApplication.Controllers
         }
 
         // GET: Countries/Edit/5
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -127,6 +130,7 @@ namespace LibraryWebApplication.Controllers
         }
 
         // GET: Countries/Delete/5
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int? id, bool saveChangesError = false)
         {
             if (id == null)

@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -19,11 +21,11 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Головна сторінка</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Головна</a>
                         </li>
                         <!--<li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>-->
+        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    </li>-->
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Companies" asp-action="Index">Компанії</a>
                         </li>
@@ -39,9 +41,49 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Colors" asp-action="Index">Кольори</a>
                         </li>
+                        @{
+                            var roles = ((ClaimsIdentity)User.Identity).Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value);
+                            @if (roles.Contains("admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Users" asp-action="Index">Корист.</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-area="" asp-controller="Roles" asp-action="Index">Ролі</a>
+                                </li>
+
+                            }
+                        }
                     </ul>
                 </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="login_email">
+                        <p>@User.Identity.Name</p>
+                        <a asp-controller="Users" asp-action="ChangePassword" asp-route-name="@User.Identity.Name">
+                            <div class="change_password">
+                                 <p>змінити пароль</p>
+                            </div>
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        <a class="text-white" asp-controller="Account" asp-action="Login">Вхід |</a>
+                        <a class="text-white" asp-controller="Account" asp-action="Register">Реєстрація</a>
+                    </div>
+                }
             </div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <form method="post" asp-controller="Account" asp-action="Logout">
+                    <div class="text-left">
+                        <input type="submit" class="btn-sm btn-dark" value="Вихід" />
+                    </div>
+
+                </form>
+            }
         </nav>
     </header>
     <div class="container">

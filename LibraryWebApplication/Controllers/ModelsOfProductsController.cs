@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LibraryWebApplication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LibraryWebApplication.Controllers
 {
@@ -72,6 +73,7 @@ namespace LibraryWebApplication.Controllers
         }
 
         // GET: ModelsOfProducts/Create
+        [Authorize(Roles = "admin")]
         public IActionResult Create(int compProdId)
         {
 
@@ -112,6 +114,7 @@ namespace LibraryWebApplication.Controllers
         }
 
         // GET: ModelsOfProducts/Edit/5
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -184,6 +187,7 @@ namespace LibraryWebApplication.Controllers
         }
 
         // GET: ModelsOfProducts/Delete/5
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)

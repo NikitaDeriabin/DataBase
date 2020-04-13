@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<LibraryWebApplication.CompanyProducts>
+@using System.Security.Claims
 
 @{
     ViewData["Title"] = "Index";
@@ -6,9 +7,16 @@
 
 <h1>Команії, що мають товари із категорії @ViewBag.ProductName</h1>
 
-<p>
-    @Html.ActionLink("Додати компанію до цієї категорії", "Create", new { productId = @ViewBag.ProductId })
-</p>
+@{
+    var roles = ((ClaimsIdentity)User.Identity).Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value);
+}
+@if (roles.Contains("admin"))
+ {
+    <p>
+        @Html.ActionLink("Додати компанію до цієї категорії", "Create", new { productId = @ViewBag.ProductId })
+    </p>
+
+ }
 
 <table class="table">
     <thead>
@@ -23,19 +31,24 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Company.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Product.Name)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Models</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Company.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Product.Name)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Models</a>
+                    @if (roles.Contains("admin"))
+                     {
+                        <a asp-action="Delete" asp-route-id="@item.Id">| Delete</a>
+                     }
+
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

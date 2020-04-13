@@ -1,0 +1,35 @@
+﻿@model LibraryWebApplication.ViewModel.RegisterViewModel
+<h2 class="text-center">Реєстрація</h2>
+
+<form method="post" asp-controller="Account" asp-action="Register">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="text">
+        <label asp-for="Email" class="control-label"></label><br />
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+
+    </div>
+    <div class="text">
+        <label asp-for="Year" class="control-label"></label><br />
+        <input asp-for="Year" class="form-control" />
+        <span asp-validation-for="Year" class="text-danger"></span>
+
+    </div>
+    <div class="text">
+        <label asp-for="Password" class="control-label"></label><br />
+        <input asp-for="Password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+
+    </div>
+    <div class="text">
+        <label asp-for="PasswordConfirm" class="control-label"></label><br />
+        <input asp-for="PasswordConfirm" class="form-control" />
+        <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
+
+    </div>
+    <div class="text">
+        <br />
+        <input type="submit" value="Зареєструватися" />
+    </div>
+</form>
+

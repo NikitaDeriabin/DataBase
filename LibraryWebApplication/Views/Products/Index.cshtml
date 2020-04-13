@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<LibraryWebApplication.Products>
+@using System.Security.Claims
 
 @{
     ViewData["Title"] = "Index";
@@ -6,29 +7,38 @@
 
 <h1>Категорії товарів</h1>
 
-<p>
-    <a asp-action="Create">Додати категорію</a>
-</p>
+@{
+    var roles = ((ClaimsIdentity)User.Identity).Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value);
+}
+@if (roles.Contains("admin"))
+ {
+    <p>
+        <a asp-action="Create">Додати категорію</a>
+    </p>
+ }
+
+
 
 <h4 class="text-danger">@ViewData["ErrorMessage"]</h4>
 
 <div>
-    <h3>Оберіть exel-файл для завантаження</h3>
-    @using (Html.BeginForm("Import", "Products", FormMethod.Post, new { enctype = "multipart/form-data", id = "frm-excel" }))
+    @if (roles.Contains("admin"))
     {
-        <div class="fl_sz">
-            Завантажте excel-файл (.xlsx):
-
-            <div class="fl_upld">
-                <label><input id="fl_inp" type="file" name="fileExcel" accept=".xlsx" />Оберіть файл</label>
-                <div id="fl_nm">Файл не обрано</div>
+        <h3>Оберіть exel-файл для завантаження</h3>
+        @using (Html.BeginForm("Import", "Products", FormMethod.Post, new { enctype = "multipart/form-data", id = "frm-excel" }))
+        {
+            <div class="fl_sz">
+                Завантажте excel-файл (.xlsx):
+                <div class="fl_upld">
+                    <label><input id="fl_inp" type="file" name="fileExcel" accept=".xlsx" />Оберіть файл</label>
+                    <div id="fl_nm">Файл не обрано</div>
+                </div>
+                <div class="fl_save">
+                    <label><input id="fl_sbmt" type="submit" value="Завантажити" />Завантажити</label>
+                </div>
             </div>
-            <div class="fl_save">
-                <label><input id="fl_sbmt" type="submit" value="Завантажити" />Завантажити</label>
-            </div>
-        </div>
+        }
     }
-
 </div>
 
 <div>
@@ -73,9 +83,13 @@
                     @Html.DisplayFor(modelItem => item.Information)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Manufacturers</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+
+                    <a asp-action="Details" asp-route-id="@item.Id">Manufacturers</a>
+                    @if (roles.Contains("admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">| Edit |</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    }
                 </td>
             </tr>
         }
