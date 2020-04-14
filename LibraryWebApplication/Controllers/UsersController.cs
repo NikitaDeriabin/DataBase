@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace CustomIdentityApp.Controllers
 {
-    [Authorize(Roles = "admin")]
     public class UsersController : Controller
     {
         private readonly UserManager<User> _userManager;
@@ -24,6 +23,7 @@ namespace CustomIdentityApp.Controllers
 
         public IActionResult Index() => View(_userManager.Users.ToList());
 
+        [Authorize(Roles = "admin")]
         public IActionResult Create() => View();
 
         [HttpPost]
@@ -54,6 +54,7 @@ namespace CustomIdentityApp.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Edit(string id)
         {
             User user = await _userManager.FindByIdAsync(id);
@@ -133,6 +134,7 @@ namespace CustomIdentityApp.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Delete(string id)
         {
             User user = await _userManager.FindByIdAsync(id);

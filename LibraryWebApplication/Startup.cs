@@ -38,7 +38,10 @@ namespace LibraryWebApplication
             services.AddTransient<IPasswordValidator<User>,
               CustomPasswordValidator>(serv => new CustomPasswordValidator(3));
 
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<User, IdentityRole>(opts =>{
+                opts.User.RequireUniqueEmail = true;
+                opts.User.AllowedUserNameCharacters = ".@abcdefghijklmnopqrstuvwxyz0123456789";
+            })
                 .AddEntityFrameworkStores<IdentityContext>()
                 .AddDefaultTokenProviders();
         }
